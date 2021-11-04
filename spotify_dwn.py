@@ -1,9 +1,11 @@
 #!/usr/bin/python
-import sys
+import sys,os
 
 from librespot.core import Session
 from librespot.metadata import TrackId
 from librespot.audio.decoders import AudioQuality, VorbisOnlyAudioQuality
+
+from pydub import AudioSegment
 
 LOGIN = ""
 PASSWORD = ""
@@ -43,6 +45,14 @@ if __name__ == "__main__":
             for _ in range(size):
                 b += stream.input_stream.stream().read()
 
-            f = open(f"{file_title}.mp3", 'wb')
+            f = open("chached_song", 'wb')
             f.write(b)
             f.close()
+
+            #decompiling to mp3
+            song = AudioSegment.from_file("chached_song","ogg")
+            song.export(f"{file_title}.mp3","mp3")
+
+            os.remove("chached_song")
+
+            print("Downloaded!")
