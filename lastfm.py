@@ -25,7 +25,7 @@ class AlbumCover:
     def get_album_cover(self, artist_name: str, album_name: str) -> bytes:
 
         payload = {
-            'api_key': API_KEY,
+            'api_key': self._API_KEY,
             'method': 'album.getinfo',
             'artist': artist_name,
             'album': album_name
@@ -44,10 +44,3 @@ class AlbumCover:
             return b""
 
         return r.content
-        
-
-if __name__ == "__main__":
-    API_KEY = ""
-    a = AlbumCover(api_key = API_KEY)
-    result = a.get_album_cover("The White Stripes", "Elephant")
-    print(result)
