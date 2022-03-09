@@ -1,0 +1,5 @@
+eyed3==0.9.6
+librespot==0.0.1
+pydub==0.25.1
+requests==2.27.1
+syncmm==3.5.5
