@@ -14,6 +14,18 @@ from pydub import AudioSegment
 
 from edit_song import MetaData
 
+bad_sym = [
+	"?",
+	"\\",
+	"/",
+	":",
+	"*",
+	'"',
+	"<",
+	">",
+	"|"
+]
+
 class DownloadSong:
 
 	_title = None
@@ -92,7 +104,11 @@ class DownloadSong:
 				f.write(cache)
 			
 			song = AudioSegment.from_file("cache", 'ogg')
-			song.export(f"{self._title}.mp3", 'mp3')
+			good_name = self._title
+			for s in bad_sym:
+				good_name = good_name.replace(s, " ")
+
+			song.export(f"{good_name}.mp3", 'mp3')
 			os.remove("cache")
 			
 			release_date = self.__get_release_date_from_stream(stream)
