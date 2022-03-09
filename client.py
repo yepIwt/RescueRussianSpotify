@@ -104,11 +104,7 @@ class DownloadSong:
 				f.write(cache)
 			
 			song = AudioSegment.from_file("cache", 'ogg')
-			good_name = self._title
-			for s in bad_sym:
-				good_name = good_name.replace(s, " ")
-
-			song.export(f"{good_name}.mp3", 'mp3')
+			song.export(f"{self._title}.mp3", 'mp3')
 			os.remove("cache")
 			
 			release_date = self.__get_release_date_from_stream(stream)
@@ -136,34 +132,48 @@ class RRSpotify:
 
 		for album in albums:
 
-			# Создаем папку исполнителя
+			good_album = album['album']
+			for s in bad_sym:
+				good_album = good_album.replace(s, " ")
+			
+			good_group = album['artists'][0]
+			for s in bad_sym:
+				good_group = good_group.replace(s, " ")
 
+			# Создаем папку исполнителя
 			try:
-				os.mkdir(album['artists'][0])
+				os.mkdir(good_group)
 			except:
 				pass
 			
 			# Переходим в папку исполнителя
-			os.chdir(album['artists'][0])
+			os.chdir(good_group)
 
 			# Создаем папку альбома
 			try:
-				os.mkdir(album['album'])
+				os.mkdir(good_album)
 			except:
 				pass
 
 			# Переходим в папку альбома
-			os.chdir(album['album'])
+			os.chdir(good_album)
 
 			print(f"Скачивание альбома - {album['album']}")
 
 			for track in album['tracks']:
+				
+				# Удаляем запрещенные для папок символы
+				good_title = track['title']
+
+				for s in bad_sym:
+					good_title = good_title.replace(s, " ")
+
 				download = DownloadSong(
 					url = track['uri'],
-					title = track['title'],
-					artists = track['artists'],
+					title = good_title,
+					artists = good_group,
 					track_num = track['track_num'],
-					album_title = album['album']
+					album_title = good_album
 				)
 
 				print(f"    Скачивание трека - {track['title']}")
