@@ -11,6 +11,8 @@ from librespot.audio.decoders import AudioQuality, VorbisOnlyAudioQuality
 
 import os, sys
 
+from pydub import AudioSegment
+
 import secrets
 LOGIN = secrets.LOGIN
 PASSWORD = secrets.PASSWORD
@@ -53,6 +55,14 @@ if __name__ == "__main__":
 		for _ in range(size):
 			data += stream.input_stream.stream().read()
 		
+		with open("cache", 'wb') as f:
+			f.write(data)
+		
+		# Ковертируем
+		song = AudioSegment.from_file("cache",'ogg')
+		song.export(f"{file_title}.mp3", 'mp3')
+		os.remove('cache')
+
 		# Записываем считанный поток в файл
 		with open(f"{file_title}.mp3", 'wb') as f:
 			f.write(data)
