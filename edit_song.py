@@ -1,7 +1,4 @@
 import eyed3
-import os
-
-from librespot import audio
 from eyed3.id3.frames import ImageFrame
 
 class MetaData:
