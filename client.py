@@ -75,9 +75,9 @@ class DownloadSong:
 	def set_metadata(self, release_date):
 		m = MetaData(self._title + ".mp3")
 		m.change(
-			self._artists[0], 
-			self._album_title,
 			self._title,
+			self._artists, 			
+			self._album_title,			
 			self._track_num,
 			release_date
 		)

@@ -1,4 +1,5 @@
 from client import RRSpotify
+from getpass import getpass
 import os
 
 if __name__ == "__main__":
@@ -9,7 +10,7 @@ if __name__ == "__main__":
         pass
 
     login = input("Enter Spotfiy login: ")
-    password = input("Enter Spotify password: ")
+    password = getpass("Enter Spotify password: ")
     core = RRSpotify(login, password)
 
     print('Запуск скрипта')
