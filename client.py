@@ -114,6 +114,8 @@ class DownloadSong:
 
 class RRSpotify:
 
+	start_from = None
+
 	def __init__(self, login, password):
 
 		print("Получение апи спотифай")
@@ -123,9 +125,18 @@ class RRSpotify:
 	def download(self):
 		
 		print("Получение всех альбомов")
+
 		
-		# Получим все альбомы пользователя
 		albums = self.library.albums()
+
+		if self.start_from:
+			it = iter(albums)
+			get = next(it, None)
+			while get['uri'].split(":")[-1] not in self.start_from:
+				get = next(it, None)
+
+			albums = list(it)
+
 		print(f"Получено альбомов: {len(albums)}")
 
 		os.chdir("data")
